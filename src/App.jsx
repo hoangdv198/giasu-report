@@ -802,14 +802,14 @@ export default function App() {
         <div className={`w-full ${isEditMode ? 'lg:col-span-7' : 'lg:col-span-12 flex justify-center'}`}>
           <div 
             ref={cardRef}
-            className="w-full max-w-[620px] rounded-3xl shadow-2xl overflow-hidden border-4 border-sky-200 relative bg-cover bg-center bg-no-repeat"
+            className="w-full max-w-[620px] rounded-3xl shadow-2xl overflow-hidden border-4 border-sky-300 relative bg-cover bg-center bg-no-repeat"
             style={{ 
               fontFamily: "'Plus Jakarta Sans', sans-serif",
               backgroundImage: `url(${CARD_BG})`
             }}
           >
-            {/* Soft overlay to ensure readability */}
-            <div className="absolute inset-0 bg-white/40 pointer-events-none" />
+            {/* White overlay for high contrast & readability */}
+            <div className="absolute inset-0 bg-white/70 backdrop-blur-[2px] pointer-events-none" />
 
             {/* Background Clouds decoration */}
             <div className="absolute top-2 right-4 opacity-25 pointer-events-none">
@@ -817,9 +817,9 @@ export default function App() {
             </div>
 
             {/* Top Cinnamoroll Banner Header */}
-            <div className="bg-gradient-to-r from-sky-400 via-sky-300 to-blue-400 text-white px-6 py-4 flex items-center justify-between relative shadow-sm">
+            <div className="bg-gradient-to-r from-sky-500 via-sky-400 to-blue-500 text-white px-6 py-4 flex items-center justify-between relative shadow-sm">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-white/90 rounded-2xl flex items-center justify-center shadow-md p-1 border-2 border-sky-100">
+                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-md p-1 border-2 border-sky-100">
                   <CinnamorollMascot className="w-10 h-8" />
                 </div>
                 <div>
@@ -835,50 +835,50 @@ export default function App() {
               </div>
 
               <div className="text-right">
-                <span className="text-[11px] font-bold uppercase bg-white/25 text-white px-3 py-1 rounded-full backdrop-blur-sm shadow-inner">
+                <span className="text-[11px] font-bold uppercase bg-white/30 text-white px-3 py-1 rounded-full backdrop-blur-sm shadow-inner">
                   Gia Sư & Luyện Thi
                 </span>
               </div>
             </div>
 
             {/* Title Ribbon */}
-            <div className="text-center py-4 px-6 bg-gradient-to-b from-sky-50 to-white border-b-2 border-dashed border-sky-100">
-              <div className="inline-flex items-center gap-2 px-4 py-1 bg-sky-100 text-sky-800 rounded-full text-xs font-black uppercase tracking-wider mb-1">
-                <Stars className="w-3.5 h-3.5 text-sky-500" />
+            <div className="text-center py-4 px-6 bg-white/90 backdrop-blur-md border-b-2 border-dashed border-sky-200 relative">
+              <div className="inline-flex items-center gap-2 px-4 py-1 bg-sky-100 text-sky-900 rounded-full text-xs font-black uppercase tracking-wider mb-1 shadow-2xs">
+                <Stars className="w-3.5 h-3.5 text-sky-600" />
                 <span>Báo Cáo Tiến Độ & Học Phí</span>
-                <Stars className="w-3.5 h-3.5 text-sky-500" />
+                <Stars className="w-3.5 h-3.5 text-sky-600" />
               </div>
-              <h2 className="text-xl sm:text-2xl font-black text-sky-950 tracking-tight uppercase">
+              <h2 className="text-xl sm:text-2xl font-black text-sky-950 tracking-tight uppercase drop-shadow-2xs">
                 {teacher.monthTitle}
               </h2>
             </div>
 
             {/* Student Stats Box */}
-            <div className="p-5 sm:p-6 space-y-4">
+            <div className="p-5 sm:p-6 space-y-4 relative">
               
               {/* 4-Box Quick Stats with Price Per Lesson */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                <div className="bg-sky-50/70 border-2 border-sky-100 rounded-2xl p-2.5 text-center">
-                  <div className="text-[10px] text-sky-600 font-bold uppercase">Học sinh</div>
-                  <div className="font-extrabold text-sky-950 text-sm sm:text-base mt-0.5">{activeStudent.studentName}</div>
+                <div className="bg-white/95 backdrop-blur-sm border-2 border-sky-200 rounded-2xl p-2.5 text-center shadow-sm">
+                  <div className="text-[10px] text-sky-700 font-bold uppercase">Học sinh</div>
+                  <div className="font-black text-sky-950 text-sm sm:text-base mt-0.5">{activeStudent.studentName}</div>
                 </div>
-                <div className="bg-sky-50/70 border-2 border-sky-100 rounded-2xl p-2.5 text-center">
-                  <div className="text-[10px] text-sky-600 font-bold uppercase">Lớp học</div>
-                  <div className="font-extrabold text-sky-950 text-sm sm:text-base mt-0.5">{activeStudent.studentGrade}</div>
+                <div className="bg-white/95 backdrop-blur-sm border-2 border-sky-200 rounded-2xl p-2.5 text-center shadow-sm">
+                  <div className="text-[10px] text-sky-700 font-bold uppercase">Lớp học</div>
+                  <div className="font-black text-sky-950 text-sm sm:text-base mt-0.5">{activeStudent.studentGrade}</div>
                 </div>
-                <div className="bg-blue-50/70 border-2 border-blue-100 rounded-2xl p-2.5 text-center">
-                  <div className="text-[10px] text-blue-600 font-bold uppercase">Số buổi (Tổng giờ)</div>
-                  <div className="font-extrabold text-blue-800 text-sm sm:text-base mt-0.5">{totalLessons} buổi ({totalHours}h)</div>
+                <div className="bg-white/95 backdrop-blur-sm border-2 border-blue-200 rounded-2xl p-2.5 text-center shadow-sm">
+                  <div className="text-[10px] text-blue-700 font-bold uppercase">Số buổi (Tổng giờ)</div>
+                  <div className="font-black text-blue-900 text-sm sm:text-base mt-0.5">{totalLessons} buổi ({totalHours}h)</div>
                 </div>
-                <div className="bg-pink-50/70 border-2 border-pink-100 rounded-2xl p-2.5 text-center">
-                  <div className="text-[10px] text-pink-600 font-bold uppercase">Đơn giá / buổi</div>
-                  <div className="font-extrabold text-pink-700 text-xs sm:text-sm mt-0.5">{formattedPricePerLesson}</div>
+                <div className="bg-white/95 backdrop-blur-sm border-2 border-pink-200 rounded-2xl p-2.5 text-center shadow-sm">
+                  <div className="text-[10px] text-pink-700 font-bold uppercase">Đơn giá / buổi</div>
+                  <div className="font-black text-pink-700 text-xs sm:text-sm mt-0.5">{formattedPricePerLesson}</div>
                 </div>
               </div>
 
               {/* Lesson Dates (Generated from chosen calendar dates) */}
-              <div className="bg-sky-50/50 border-2 border-sky-100 rounded-2xl p-3 text-xs text-sky-900 flex items-start gap-2">
-                <div className="p-1 bg-sky-200/60 rounded-xl text-sky-700 mt-0.5">
+              <div className="bg-white/95 backdrop-blur-sm border-2 border-sky-200 rounded-2xl p-3 text-xs text-sky-950 flex items-start gap-2 shadow-sm">
+                <div className="p-1 bg-sky-100 rounded-xl text-sky-700 mt-0.5">
                   <CalendarIcon className="w-4 h-4" />
                 </div>
                 <div>
@@ -886,7 +886,7 @@ export default function App() {
                   <div className="flex flex-wrap gap-1.5 mt-1">
                     {(activeStudent.selectedDates && activeStudent.selectedDates.length > 0) ? (
                       activeStudent.selectedDates.map((d, i) => (
-                        <span key={i} className="bg-white border border-sky-200 text-sky-800 font-bold px-2 py-0.5 rounded-lg text-[11px] shadow-2xs">
+                        <span key={i} className="bg-sky-50 border border-sky-300 text-sky-950 font-black px-2 py-0.5 rounded-lg text-[11px] shadow-2xs">
                           {formatShortDate(d)}
                         </span>
                       ))
@@ -899,19 +899,19 @@ export default function App() {
 
               {/* Learning Reviews */}
               <div className="space-y-3 pt-1">
-                <div className="flex items-center gap-2 text-sm font-extrabold text-sky-950 pb-1 border-b-2 border-sky-100">
-                  <BookOpen className="w-4 h-4 text-sky-500" />
+                <div className="flex items-center gap-2 text-sm font-extrabold text-sky-950 pb-1 border-b-2 border-sky-200">
+                  <BookOpen className="w-4 h-4 text-sky-600" />
                   <span>NHẬN XÉT HỌC TẬP</span>
                 </div>
 
-                <div className="space-y-2.5 text-xs sm:text-sm text-slate-700">
+                <div className="space-y-2.5 text-xs sm:text-sm">
                   {activeStudent.reviews.map((rev, idx) => (
-                    <div key={idx} className="bg-sky-50/30 p-2.5 rounded-2xl border border-sky-100/70 space-y-1">
-                      <div className="font-bold text-sky-900 flex items-center gap-1.5">
-                        <span className="w-2 h-2 rounded-full bg-sky-400"></span>
+                    <div key={idx} className="bg-white/95 backdrop-blur-sm p-3 rounded-2xl border-2 border-sky-150 shadow-sm space-y-1.5">
+                      <div className="font-extrabold text-sky-950 flex items-center gap-1.5 text-xs sm:text-sm">
+                        <span className="w-2.5 h-2.5 rounded-full bg-sky-500 shadow-2xs"></span>
                         <span>{rev.subject}:</span>
                       </div>
-                      <ul className="space-y-1 pl-4 list-disc text-slate-600 text-xs leading-relaxed">
+                      <ul className="space-y-1.5 pl-4 list-disc text-slate-800 text-xs sm:text-[13px] leading-relaxed font-medium">
                         {rev.points.map((pt, pIdx) => (
                           <li key={pIdx}>{pt}</li>
                         ))}
@@ -922,46 +922,46 @@ export default function App() {
               </div>
 
               {/* Tuition & VietQR Box (Cinnamoroll Sky-Blue Theme) */}
-              <div className="bg-gradient-to-br from-sky-100 via-sky-50 to-blue-100 border-2 border-sky-200 rounded-3xl p-4 sm:p-5 shadow-sm">
+              <div className="bg-white/95 backdrop-blur-sm border-2 border-sky-300 rounded-3xl p-4 sm:p-5 shadow-md">
                 <div className="flex items-center justify-between pb-3 border-b-2 border-dashed border-sky-200">
                   <div className="flex items-center gap-2">
-                    <div className="p-1.5 bg-sky-400 text-white rounded-xl shadow-xs">
+                    <div className="p-1.5 bg-sky-500 text-white rounded-xl shadow-xs">
                       <CreditCard className="w-4 h-4" />
                     </div>
                     <div>
-                      <span className="font-extrabold text-xs sm:text-sm text-sky-950 uppercase tracking-tight block">TỔNG HỌC PHÍ THÁNG</span>
-                      <span className="text-[10px] text-sky-600 font-medium">({totalLessons} buổi × {formattedPricePerLesson})</span>
+                      <span className="font-black text-xs sm:text-sm text-sky-950 uppercase tracking-tight block">TỔNG HỌC PHÍ THÁNG</span>
+                      <span className="text-[11px] text-sky-700 font-bold">({totalLessons} buổi × {formattedPricePerLesson})</span>
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="text-xl sm:text-2xl font-black text-sky-800 tracking-tight">{formattedTuition}</span>
+                    <span className="text-2xl sm:text-3xl font-black text-sky-700 tracking-tight">{formattedTuition}</span>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center pt-3.5">
-                  <div className="sm:col-span-7 space-y-1.5 text-xs">
-                    <div className="text-slate-600 flex items-center gap-1.5">
-                      <span className="font-bold text-slate-800">Ngân hàng:</span>
-                      <span className="font-extrabold text-sky-800">{teacher.bankName}</span>
+                  <div className="sm:col-span-7 space-y-2 text-xs">
+                    <div className="text-slate-700 flex items-center gap-1.5">
+                      <span className="font-bold text-slate-900">Ngân hàng:</span>
+                      <span className="font-black text-sky-900 bg-sky-50 px-2 py-0.5 rounded-lg border border-sky-200">{teacher.bankName}</span>
                     </div>
-                    <div className="text-slate-600 flex items-center gap-1.5">
-                      <span className="font-bold text-slate-800">Số tài khoản:</span>
-                      <span className="font-black text-sky-800 bg-white px-2.5 py-0.5 rounded-xl border border-sky-300 text-xs tracking-wider shadow-2xs">
+                    <div className="text-slate-700 flex items-center gap-1.5">
+                      <span className="font-bold text-slate-900">Số tài khoản:</span>
+                      <span className="font-black text-sky-950 bg-sky-100/70 px-2.5 py-0.5 rounded-xl border border-sky-300 text-xs tracking-wider shadow-2xs">
                         {teacher.bankNumber}
                       </span>
                     </div>
-                    <div className="text-slate-600 flex items-center gap-1.5">
-                      <span className="font-bold text-slate-800">Chủ tài khoản:</span>
-                      <span className="font-extrabold text-slate-800">{teacher.bankOwner}</span>
+                    <div className="text-slate-700 flex items-center gap-1.5">
+                      <span className="font-bold text-slate-900">Chủ tài khoản:</span>
+                      <span className="font-black text-slate-900 uppercase">{teacher.bankOwner}</span>
                     </div>
-                    <div className="text-[11px] text-sky-700 italic pt-1 flex items-center gap-1">
-                      <Sparkles className="w-3 h-3 text-sky-400" />
+                    <div className="text-[11px] text-sky-800 font-semibold italic pt-1 flex items-center gap-1">
+                      <Sparkles className="w-3.5 h-3.5 text-sky-500" />
                       <span>Quét mã VietQR chuyển khoản nhanh đúng số tiền & nội dung</span>
                     </div>
                   </div>
 
                   <div className="sm:col-span-5 flex flex-col items-center justify-center">
-                    <div className="bg-white p-2 rounded-2xl shadow-md border-2 border-sky-200">
+                    <div className="bg-white p-2 rounded-2xl shadow-md border-2 border-sky-300">
                       <img 
                         src={getVietQrUrl()} 
                         alt="Mã QR Chuyển khoản" 
@@ -975,16 +975,16 @@ export default function App() {
 
               {/* Roadmap & Next Steps */}
               <div className="pt-2 space-y-2.5">
-                <div className="flex items-center gap-2 text-sm font-extrabold text-sky-950 pb-1 border-b-2 border-sky-100">
-                  <Compass className="w-4 h-4 text-sky-500" />
+                <div className="flex items-center gap-2 text-sm font-extrabold text-sky-950 pb-1 border-b-2 border-sky-200">
+                  <Compass className="w-4 h-4 text-sky-600" />
                   <span>LỘ TRÌNH SẮP TỚI</span>
                 </div>
 
                 <div className="space-y-1.5 text-xs">
                   {activeStudent.roadmaps.map((item, idx) => (
-                    <div key={idx} className="flex items-start gap-2 bg-sky-50/40 p-2 rounded-xl">
-                      <span className="font-bold text-sky-800 shrink-0 w-24">{item.time}:</span>
-                      <span className="text-slate-600 leading-snug">{item.desc}</span>
+                    <div key={idx} className="flex items-start gap-2 bg-white/95 backdrop-blur-sm p-2.5 rounded-xl border border-sky-150 shadow-2xs">
+                      <span className="font-black text-sky-900 shrink-0 w-24">{item.time}:</span>
+                      <span className="text-slate-800 leading-snug font-medium">{item.desc}</span>
                     </div>
                   ))}
                 </div>
@@ -992,23 +992,23 @@ export default function App() {
 
               {/* Schedule */}
               <div className="pt-2 space-y-2">
-                <div className="flex items-center gap-2 text-sm font-extrabold text-sky-950 pb-1 border-b-2 border-sky-100">
-                  <Clock className="w-4 h-4 text-sky-500" />
+                <div className="flex items-center gap-2 text-sm font-extrabold text-sky-950 pb-1 border-b-2 border-sky-200">
+                  <Clock className="w-4 h-4 text-sky-600" />
                   <span>LỊCH HỌC CỐ ĐỊNH</span>
                 </div>
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   {activeStudent.schedule.map((sch, idx) => (
-                    <div key={idx} className="bg-sky-50/70 border border-sky-200 rounded-2xl p-2.5 text-center">
-                      <span className="font-bold text-sky-950 block">{sch.day}</span>
-                      <span className="text-sky-700 font-semibold text-[11px]">{sch.time}</span>
+                    <div key={idx} className="bg-white/95 backdrop-blur-sm border-2 border-sky-200 rounded-2xl p-2.5 text-center shadow-2xs">
+                      <span className="font-black text-sky-950 block">{sch.day}</span>
+                      <span className="text-sky-800 font-bold text-[11px]">{sch.time}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Footer Note */}
-              <div className="text-center pt-3 text-xs text-slate-500 italic border-t border-sky-100 flex items-center justify-center gap-1.5">
-                <Heart className="w-3 h-3 text-pink-400 fill-pink-400" />
+              <div className="text-center pt-3 text-xs text-slate-700 font-medium italic border-t border-sky-200 flex items-center justify-center gap-1.5">
+                <Heart className="w-3 h-3 text-pink-500 fill-pink-500" />
                 <span>{teacher.footerNote}</span>
               </div>
 
