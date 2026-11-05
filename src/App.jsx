@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { toPng } from 'html-to-image';
 import LZString from 'lz-string';
+import { CARD_BG } from './bgImage';
 
 // Cinnamoroll Cloud / Pastel Palette
 // Primary pastel blues, soft cream/white, sky-blue accents, rounded bubbly borders
@@ -801,12 +802,18 @@ export default function App() {
         <div className={`w-full ${isEditMode ? 'lg:col-span-7' : 'lg:col-span-12 flex justify-center'}`}>
           <div 
             ref={cardRef}
-            className="w-full max-w-[620px] bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-sky-200 relative"
-            style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+            className="w-full max-w-[620px] rounded-3xl shadow-2xl overflow-hidden border-4 border-sky-200 relative bg-cover bg-center bg-no-repeat"
+            style={{ 
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              backgroundImage: `url(${CARD_BG})`
+            }}
           >
+            {/* Soft overlay to ensure readability */}
+            <div className="absolute inset-0 bg-white/40 pointer-events-none" />
+
             {/* Background Clouds decoration */}
-            <div className="absolute top-2 right-4 opacity-15 pointer-events-none">
-              <Cloud className="w-24 h-24 text-sky-300" />
+            <div className="absolute top-2 right-4 opacity-25 pointer-events-none">
+              <Cloud className="w-24 h-24 text-sky-400" />
             </div>
 
             {/* Top Cinnamoroll Banner Header */}
