@@ -26,6 +26,7 @@ import {
 import { toPng } from 'html-to-image';
 import LZString from 'lz-string';
 import { CARD_BG } from './bgImage';
+import { TITLE_BG } from './titleBgImage';
 
 // Cinnamoroll Cloud / Pastel Palette
 // Primary pastel blues, soft cream/white, sky-blue accents, rounded bubbly borders
@@ -842,15 +843,25 @@ export default function App() {
             </div>
 
             {/* Title Ribbon */}
-            <div className="text-center py-4 px-6 bg-white/90 backdrop-blur-md border-b-2 border-dashed border-sky-200 relative">
-              <div className="inline-flex items-center gap-2 px-4 py-1 bg-sky-100 text-sky-900 rounded-full text-xs font-black uppercase tracking-wider mb-1 shadow-2xs">
-                <Stars className="w-3.5 h-3.5 text-sky-600" />
-                <span>Báo Cáo Tiến Độ & Học Phí</span>
-                <Stars className="w-3.5 h-3.5 text-sky-600" />
+            <div 
+              className="text-center py-5 px-6 border-b-2 border-dashed border-sky-200 relative bg-cover bg-center overflow-hidden"
+              style={{
+                backgroundImage: `url(${TITLE_BG})`
+              }}
+            >
+              {/* Soft white/pastel overlay for title background to keep text crystal clear */}
+              <div className="absolute inset-0 bg-white/40 backdrop-blur-[1px] pointer-events-none" />
+
+              <div className="relative z-10">
+                <div className="inline-flex items-center gap-2 px-4 py-1 bg-white/90 text-sky-900 rounded-full text-xs font-black uppercase tracking-wider mb-1.5 shadow-sm border border-sky-200">
+                  <Stars className="w-3.5 h-3.5 text-sky-600" />
+                  <span>Báo Cáo Tiến Độ & Học Phí</span>
+                  <Stars className="w-3.5 h-3.5 text-sky-600" />
+                </div>
+                <h2 className="text-xl sm:text-2xl font-black text-sky-950 tracking-tight uppercase drop-shadow-sm bg-white/80 inline-block px-4 py-0.5 rounded-2xl border border-sky-100">
+                  {teacher.monthTitle}
+                </h2>
               </div>
-              <h2 className="text-xl sm:text-2xl font-black text-sky-950 tracking-tight uppercase drop-shadow-2xs">
-                {teacher.monthTitle}
-              </h2>
             </div>
 
             {/* Student Stats Box */}
