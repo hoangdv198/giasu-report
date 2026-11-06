@@ -24,6 +24,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import { toPng } from 'html-to-image';
+import html2canvas from 'html2canvas';
 import LZString from 'lz-string';
 import { CARD_BG } from './bgImage';
 import { TITLE_BG } from './titleBgImage';
@@ -260,18 +261,37 @@ export default function App() {
     if (!cardRef.current) return;
     setIsExporting(true);
     try {
-      await new Promise(r => setTimeout(r, 150));
-      const dataUrl = await toPng(cardRef.current, {
-        cacheBust: true,
-        pixelRatio: 2.5,
-        backgroundColor: '#F0F9FF'
-      });
-      const link = document.createElement('a');
-      link.download = `Phieu-Hoc-Phi-Cinnamoroll-${activeStudent.studentName.replace(/\s+/g, '_')}.png`;
-      link.href = dataUrl;
-      link.click();
+      await new Promise(r => setTimeout(r, 200));
+      let dataUrl = null;
+      try {
+        // First try html2canvas with full cross-origin and scale support
+        const canvas = await html2canvas(cardRef.current, {
+          scale: 2.5,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#F0F9FF',
+          logging: false
+        });
+        dataUrl = canvas.toDataURL('image/png');
+      } catch (h2cErr) {
+        console.warn('html2canvas failed, trying toPng fallback:', h2cErr);
+        dataUrl = await toPng(cardRef.current, {
+          cacheBust: true,
+          pixelRatio: 2.5,
+          backgroundColor: '#F0F9FF'
+        });
+      }
+
+      if (dataUrl) {
+        const link = document.createElement('a');
+        link.download = `Phieu-Hoc-Phi-Cinnamoroll-${activeStudent.studentName.replace(/\s+/g, '_')}.png`;
+        link.href = dataUrl;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
     } catch (err) {
-      alert("Lỗi xuất ảnh: " + err.message);
+      alert("Lỗi xuất ảnh: " + (err.message || err));
     } finally {
       setIsExporting(false);
     }
@@ -407,7 +427,7 @@ export default function App() {
             className="flex items-center gap-1.5 px-3.5 py-2 bg-pink-400 hover:bg-pink-500 text-white rounded-2xl text-xs sm:text-sm font-bold transition shadow-md disabled:opacity-50"
           >
             {isExporting ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-            <span>{isExporting ? 'Đang tạo...' : 'Tải ảnh Zalo'}</span>
+            <span>{isExporting ? 'Đang xuất...' : 'Xuất ảnh'}</span>
           </button>
         </div>
       </header>
