@@ -32,6 +32,7 @@ import LZString from 'lz-string';
 import { CARD_BG } from './bgImage';
 import { TITLE_BG } from './titleBgImage';
 import { AVATAR_IMG } from './avatarImage';
+import { DEFAULT_QR_IMG } from './defaultQr';
 
 // Cinnamoroll Cloud / Pastel Palette
 // Primary pastel blues, soft cream/white, sky-blue accents, rounded bubbly borders
@@ -110,10 +111,10 @@ const INITIAL_TEACHER = {
   teacherName: "GV. Mai Thị Linh Trang",
   teacherPhone: "0978783058",
   monthTitle: "HỌC PHÍ THÁNG 9/2026",
-  bankName: "TECHCOMBANK",
-  bankNumber: "0978783058",
+  bankName: "MBBANK",
+  bankNumber: "0827290297",
   bankOwner: "MAI THI LINH TRANG",
-  customQr: "",
+  customQr: DEFAULT_QR_IMG,
   footerNote: "Phụ huynh vui lòng kiểm tra thông tin học phí. Em cảm ơn ạ!"
 };
 
