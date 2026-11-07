@@ -239,8 +239,8 @@ export default function App() {
 
   // Calculate stats
   const totalLessons = (activeStudent.selectedDates || []).length;
-  const totalHours = (totalLessons * (activeStudent.hoursPerLesson || 1.25)).toFixed(1);
-  const totalTuition = totalLessons * (activeStudent.pricePerLesson || 200000);
+  const totalHours = (totalLessons * (parseFloat(String(activeStudent.hoursPerLesson || 0).replace(",", ".")) || 0)).toFixed(1);
+  const totalTuition = totalLessons * (Number(activeStudent.pricePerLesson) || 0);
   const formattedTuition = new Intl.NumberFormat('vi-VN').format(totalTuition) + " đ";
   const formattedPricePerLesson = new Intl.NumberFormat('vi-VN').format(activeStudent.pricePerLesson || 200000) + " đ/buổi";
 
@@ -662,20 +662,31 @@ export default function App() {
                   <div>
                     <label className="text-slate-500 font-medium">Học phí 1 buổi (VNĐ)</label>
                     <input 
-                      type="number" 
-                      step="10000"
-                      value={activeStudent.pricePerLesson} 
-                      onChange={e => updateActiveStudent({ pricePerLesson: Number(e.target.value) })}
+                      type="text" 
+                      inputMode="numeric"
+                      placeholder="200000"
+                      value={activeStudent.pricePerLesson ?? ''} 
+                      onChange={e => {
+                        const val = e.target.value.replace(/\D/g, '');
+                        updateActiveStudent({ pricePerLesson: val === '' ? '' : Number(val) });
+                      }}
                       className="w-full bg-white border border-sky-200 rounded-xl px-2.5 py-1.5 text-slate-800 font-semibold focus:outline-none focus:border-sky-400" 
                     />
                   </div>
                   <div>
                     <label className="text-slate-500 font-medium">Số giờ / 1 buổi</label>
                     <input 
-                      type="number" 
-                      step="0.25"
-                      value={activeStudent.hoursPerLesson} 
-                      onChange={e => updateActiveStudent({ hoursPerLesson: Number(e.target.value) })}
+                      type="text" 
+                      inputMode="decimal"
+                      placeholder="1.5 hoặc 2,5"
+                      value={activeStudent.hoursPerLesson ?? ''} 
+                      onChange={e => {
+                        const val = e.target.value.replace(',', '.');
+                        // Chỉ cho phép nhập số và tối đa 1 dấu chấm thập phân
+                        if (val === '' || /^\d*\.?\d*$/.test(val)) {
+                          updateActiveStudent({ hoursPerLesson: val });
+                        }
+                      }}
                       className="w-full bg-white border border-sky-200 rounded-xl px-2.5 py-1.5 text-slate-800 font-semibold focus:outline-none focus:border-sky-400" 
                     />
                   </div>
