@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
+  Save,
   Download,
   Upload, 
   Share2, 
@@ -153,12 +154,38 @@ function formatShortDate(iso) {
 }
 
 export default function App() {
-  const [teacher, setTeacher] = useState(INITIAL_TEACHER);
-  const [students, setStudents] = useState(SAMPLE_STUDENTS);
-  const [activeStudentId, setActiveStudentId] = useState("s1");
+  // Tải dữ liệu đã lưu từ localStorage (nếu có)
+  const [teacher, setTeacher] = useState(() => {
+    try {
+      const saved = localStorage.getItem('giasu_tutor_teacher');
+      return saved ? JSON.parse(saved) : INITIAL_TEACHER;
+    } catch {
+      return INITIAL_TEACHER;
+    }
+  });
+
+  const [students, setStudents] = useState(() => {
+    try {
+      const saved = localStorage.getItem('giasu_tutor_students');
+      return saved ? JSON.parse(saved) : SAMPLE_STUDENTS;
+    } catch {
+      return SAMPLE_STUDENTS;
+    }
+  });
+
+  const [activeStudentId, setActiveStudentId] = useState(() => {
+    try {
+      const saved = localStorage.getItem('giasu_tutor_active_id');
+      return saved || "s1";
+    } catch {
+      return "s1";
+    }
+  });
+
   const [qrDataUrl, setQrDataUrl] = useState('');
   const [isEditMode, setIsEditMode] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const [isExportingPdf, setIsExportingPdf] = useState(false);
   const [calendarMonth, setCalendarMonth] = useState(new Date(2026, 8, 1)); // September 2026
@@ -281,6 +308,31 @@ export default function App() {
       img.src = event.target.result;
     };
     reader.readAsDataURL(file);
+  };
+
+  // Tự động lưu mọi thay đổi vào localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('giasu_tutor_teacher', JSON.stringify(teacher));
+      localStorage.setItem('giasu_tutor_students', JSON.stringify(students));
+      localStorage.setItem('giasu_tutor_active_id', activeStudentId);
+    } catch (err) {
+      console.error('Lỗi khi tự động lưu dữ liệu:', err);
+    }
+  }, [teacher, students, activeStudentId]);
+
+  // Hàm bấm nút "Lưu dữ liệu" thủ công
+  const handleSaveData = () => {
+    try {
+      localStorage.setItem('giasu_tutor_teacher', JSON.stringify(teacher));
+      localStorage.setItem('giasu_tutor_students', JSON.stringify(students));
+      localStorage.setItem('giasu_tutor_active_id', activeStudentId);
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 2000);
+    } catch (err) {
+      console.error('Lỗi khi lưu:', err);
+      alert('Không thể lưu dữ liệu vào bộ nhớ trình duyệt!');
+    }
   };
 
   // Generate QR code locally as base64 data URL to avoid CORS / canvas taint issues
@@ -503,6 +555,21 @@ export default function App() {
         </div>
 
         <div className="flex items-center flex-wrap gap-2">
+          {/* Nút Lưu dữ liệu */}
+          <button
+            type="button"
+            onClick={handleSaveData}
+            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-2xl text-xs sm:text-sm font-bold transition shadow-sm ${
+              saveSuccess 
+                ? 'bg-emerald-500 text-white' 
+                : 'bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-300'
+            }`}
+            title="Lưu lại mọi thông tin vào trình duyệt máy này"
+          >
+            {saveSuccess ? <Check className="w-4 h-4 text-white" /> : <Save className="w-4 h-4 text-emerald-600" />}
+            <span>{saveSuccess ? 'Đã lưu!' : 'Lưu dữ liệu'}</span>
+          </button>
+
           <button
             onClick={() => setIsEditMode(!isEditMode)}
             className={`flex items-center gap-1.5 px-3.5 py-2 rounded-2xl text-xs sm:text-sm font-bold transition shadow-sm ${
