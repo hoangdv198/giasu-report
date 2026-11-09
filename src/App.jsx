@@ -23,7 +23,8 @@ import {
   Heart,
   Cloud,
   Stars,
-  Sparkles
+  Sparkles,
+  X
 } from 'lucide-react';
 import { toPng } from 'html-to-image';
 import { jsPDF } from 'jspdf';
@@ -188,6 +189,7 @@ export default function App() {
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const [isExportingPdf, setIsExportingPdf] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null);
   const [calendarMonth, setCalendarMonth] = useState(new Date(2026, 8, 1)); // September 2026
 
   const cardRef = useRef(null);
@@ -422,6 +424,19 @@ export default function App() {
     }
   };
 
+  // Chuyển DataURL sang File để hỗ trợ chia sẻ/lưu ảnh trực tiếp vào Photos trên iPhone/Mobile
+  const dataUrlToFile = (dataUrl, filename) => {
+    const arr = dataUrl.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: mime });
+  };
+
   const handleExportPng = async () => {
     if (!cardRef.current) return;
     setIsExporting(true);
@@ -436,12 +451,45 @@ export default function App() {
       });
 
       if (dataUrl) {
-        const link = document.createElement('a');
-        link.download = `Phieu-Hoc-Phi-Cinnamoroll-${activeStudent.studentName.replace(/\s+/g, '_')}.png`;
-        link.href = dataUrl;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        const cleanName = (activeStudent.studentName || "Hoc_Sinh").trim().replace(/\s+/g, '_');
+        const fileName = `Phieu-Hoc-Phi-Cinnamoroll-${cleanName}.png`;
+        const file = dataUrlToFile(dataUrl, fileName);
+
+        // 1. Thử Web Share API (đặc biệt tối ưu cho iPhone/iPad: hiển thị menu Lưu hình ảnh vào Album Photos)
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({
+              files: [file],
+              title: `Phiếu học phí - ${activeStudent.studentName}`,
+              text: `Phiếu học phí Cinnamoroll của ${activeStudent.studentName}`
+            });
+            setIsExporting(false);
+            return;
+          } catch (shareErr) {
+            if (shareErr.name === 'AbortError') {
+              setIsExporting(false);
+              return;
+            }
+            console.warn("navigator.share failed, fallback to preview/download:", shareErr);
+          }
+        }
+
+        // 2. Nhận diện thiết bị iOS (iPhone / iPad)
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+        if (isIOS) {
+          // Bật Modal Xem trước ảnh để người dùng chạm giữ 1 giây -> Chọn "Lưu vào Ảnh"
+          setPreviewImage(dataUrl);
+        } else {
+          // Trên PC / Mac / Android: tải về trực tiếp
+          const link = document.createElement('a');
+          link.download = fileName;
+          link.href = dataUrl;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
       }
     } catch (err) {
       console.error("Export PNG error:", err);
