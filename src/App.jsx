@@ -1108,14 +1108,20 @@ export default function App() {
         <div className={`w-full ${isEditMode ? 'lg:col-span-7' : 'lg:col-span-12 flex justify-center'}`}>
           <div 
             ref={cardRef}
-            className="w-full max-w-[620px] rounded-3xl shadow-2xl overflow-hidden border-4 border-sky-300 relative bg-cover bg-center bg-no-repeat"
+            className="w-full max-w-[620px] rounded-3xl shadow-2xl overflow-hidden border-4 border-sky-300 relative bg-sky-50"
             style={{ 
-              fontFamily: "'Plus Jakarta Sans', sans-serif",
-              backgroundImage: `url(${CARD_BG})`
+              fontFamily: "'Plus Jakarta Sans', sans-serif"
             }}
           >
-            {/* White overlay for high contrast & readability */}
-            <div className="absolute inset-0 bg-white/70 backdrop-blur-[2px] pointer-events-none" />
+            {/* Real Cinnamoroll Background Image for reliable export to PDF/PNG */}
+            <img 
+              src={CARD_BG} 
+              alt="Card Background" 
+              className="absolute inset-0 w-full h-full object-cover pointer-events-none z-0" 
+            />
+
+            {/* White overlay for high contrast & readability (no backdrop-filter so export renders crystal clear) */}
+            <div className="absolute inset-0 bg-white/75 pointer-events-none z-0" />
 
             {/* Background Clouds decoration */}
             <div className="absolute top-2 right-4 opacity-25 pointer-events-none">
@@ -1140,7 +1146,7 @@ export default function App() {
               </div>
 
               <div className="text-right">
-                <span className="text-[11px] font-bold uppercase bg-white/30 text-white px-3 py-1 rounded-full backdrop-blur-sm shadow-inner whitespace-nowrap shrink-0">
+                <span className="text-[11px] font-bold uppercase bg-white/30 text-white px-3 py-1 rounded-full shadow-inner whitespace-nowrap shrink-0">
                   Gia Sư & Luyện Thi
                 </span>
               </div>
@@ -1154,7 +1160,7 @@ export default function App() {
               }}
             >
               {/* Soft white/pastel overlay for title background to keep text crystal clear */}
-              <div className="absolute inset-0 bg-white/40 backdrop-blur-[1px] pointer-events-none" />
+              <div className="absolute inset-0 bg-white/45 pointer-events-none" />
 
               <div className="relative z-10">
                 <div className="inline-flex items-center gap-2 px-4 py-1 bg-white/95 text-sky-900 rounded-full text-xs font-black uppercase tracking-wider mb-1.5 shadow-sm border border-sky-200 whitespace-nowrap">
@@ -1173,26 +1179,26 @@ export default function App() {
               
               {/* 4-Box Quick Stats with Price Per Lesson */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                <div className="bg-white/95 backdrop-blur-sm border-2 border-sky-200 rounded-2xl p-2.5 text-center shadow-sm">
+                <div className="bg-white/95 border-2 border-sky-200 rounded-2xl p-2.5 text-center shadow-sm">
                   <div className="text-[10px] text-sky-700 font-bold uppercase">Học sinh</div>
                   <div className="font-black text-sky-950 text-sm sm:text-base mt-0.5">{activeStudent.studentName}</div>
                 </div>
-                <div className="bg-white/95 backdrop-blur-sm border-2 border-sky-200 rounded-2xl p-2.5 text-center shadow-sm">
+                <div className="bg-white/95 border-2 border-sky-200 rounded-2xl p-2.5 text-center shadow-sm">
                   <div className="text-[10px] text-sky-700 font-bold uppercase">Lớp học</div>
                   <div className="font-black text-sky-950 text-sm sm:text-base mt-0.5">{activeStudent.studentGrade}</div>
                 </div>
-                <div className="bg-white/95 backdrop-blur-sm border-2 border-blue-200 rounded-2xl p-2.5 text-center shadow-sm">
+                <div className="bg-white/95 border-2 border-blue-200 rounded-2xl p-2.5 text-center shadow-sm">
                   <div className="text-[10px] text-blue-700 font-bold uppercase">Số buổi (Tổng giờ)</div>
                   <div className="font-black text-blue-900 text-sm sm:text-base mt-0.5">{totalLessons} buổi ({totalHours}h)</div>
                 </div>
-                <div className="bg-white/95 backdrop-blur-sm border-2 border-pink-200 rounded-2xl p-2.5 text-center shadow-sm">
+                <div className="bg-white/95 border-2 border-pink-200 rounded-2xl p-2.5 text-center shadow-sm">
                   <div className="text-[10px] text-pink-700 font-bold uppercase">Đơn giá / buổi</div>
                   <div className="font-black text-pink-700 text-xs sm:text-sm mt-0.5">{formattedPricePerLesson}</div>
                 </div>
               </div>
 
               {/* Lesson Dates (Generated from chosen calendar dates) */}
-              <div className="bg-white/95 backdrop-blur-sm border-2 border-sky-200 rounded-2xl p-3 text-xs text-sky-950 flex items-start gap-2 shadow-sm">
+              <div className="bg-white/95 border-2 border-sky-200 rounded-2xl p-3 text-xs text-sky-950 flex items-start gap-2 shadow-sm">
                 <div className="p-1 bg-sky-100 rounded-xl text-sky-700 mt-0.5">
                   <CalendarIcon className="w-4 h-4" />
                 </div>
@@ -1221,7 +1227,7 @@ export default function App() {
 
                 <div className="space-y-2.5 text-xs sm:text-sm">
                   {activeStudent.reviews.map((rev, idx) => (
-                    <div key={idx} className="bg-white/95 backdrop-blur-sm p-3 rounded-2xl border-2 border-sky-150 shadow-sm space-y-1.5">
+                    <div key={idx} className="bg-white/95 p-3 rounded-2xl border-2 border-sky-150 shadow-sm space-y-1.5">
                       <div className="font-extrabold text-sky-950 flex items-center gap-1.5 text-xs sm:text-sm">
                         <span className="w-2.5 h-2.5 rounded-full bg-sky-500 shadow-2xs"></span>
                         <span>{rev.subject}:</span>
@@ -1237,7 +1243,7 @@ export default function App() {
               </div>
 
               {/* Tuition & VietQR Box (Cinnamoroll Sky-Blue Theme) */}
-              <div className="bg-white/95 backdrop-blur-sm border-2 border-sky-300 rounded-3xl p-4 sm:p-5 shadow-md">
+              <div className="bg-white/95 border-2 border-sky-300 rounded-3xl p-4 sm:p-5 shadow-md">
                 <div className="flex items-center justify-between pb-3 border-b-2 border-dashed border-sky-200">
                   <div className="flex items-center gap-2">
                     <div className="p-1.5 bg-sky-500 text-white rounded-xl shadow-xs">
@@ -1296,7 +1302,7 @@ export default function App() {
 
                 <div className="space-y-1.5 text-xs">
                   {activeStudent.roadmaps.map((item, idx) => (
-                    <div key={idx} className="flex items-start gap-2 bg-white/95 backdrop-blur-sm p-2.5 rounded-xl border border-sky-150 shadow-2xs">
+                    <div key={idx} className="flex items-start gap-2 bg-white/95 p-2.5 rounded-xl border border-sky-150 shadow-2xs">
                       <span className="font-black text-sky-900 shrink-0 w-24">{item.time}:</span>
                       <span className="text-slate-800 leading-snug font-medium">{item.desc}</span>
                     </div>
@@ -1312,7 +1318,7 @@ export default function App() {
                 </div>
                 <div className="grid grid-cols-2 gap-2 text-xs">
                   {activeStudent.schedule.map((sch, idx) => (
-                    <div key={idx} className="bg-white/95 backdrop-blur-sm border-2 border-sky-200 rounded-2xl p-2.5 text-center shadow-2xs">
+                    <div key={idx} className="bg-white/95 border-2 border-sky-200 rounded-2xl p-2.5 text-center shadow-2xs">
                       <span className="font-black text-sky-950 block">{sch.day}</span>
                       <span className="text-sky-800 font-bold text-[11px]">{sch.time}</span>
                     </div>
